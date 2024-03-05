@@ -29,9 +29,20 @@ app.use(helmet.crossOriginResourcePolicy({ policy: "cross-origin" }));
 app.use(morgan("common"));
 app.use(bodyParser.json({ limit: "30mb", extended: true }));
 app.use(bodyParser.urlencoded({ limit: "30mb", extended: true }));
-app.use(cors());
+// app.use(cors());
 app.use("/assets", express.static(path.join(__dirname, "public/assets")));
 
+
+app.use(
+  cors({
+    origin: [
+      "https://sociopedia-client-taupe.vercel.app/",
+      "http://localhost:3000",
+    ],
+    methods: ["POST", "GET", "PUT", "DELETE", "PATCH"],
+    credentials: true,
+  })
+);
 
 
 
@@ -60,13 +71,13 @@ app.use("/posts", postRoutes);
 
 /* MONGOOSE SETUP */
 const PORT = process.env.PORT || 6001;
-mongoose.connect(process.env.MONGO_URL, { 
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-  }).then(() => {
-    app.listen(PORT, () => console.log(`Server Port: ${PORT}`));
+mongoose.connect(process.env.MONGO_URL, {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+}).then(() => {
+  app.listen(PORT, () => console.log(`Server Port: ${PORT}`));
 
-    /* ADD DATA ONE TIME */
-    // User.insertMany(users);
-    // Post.insertMany(posts);
-  }).catch((error) => console.log(`${error} did not connect`));
+  /* ADD DATA ONE TIME */
+  // User.insertMany(users);
+  // Post.insertMany(posts);
+}).catch((error) => console.log(`${error} did not connect`));
