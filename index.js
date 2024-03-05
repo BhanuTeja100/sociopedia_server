@@ -36,7 +36,7 @@ app.use("/assets", express.static(path.join(__dirname, "public/assets")));
 app.use(
   cors({
     origin: [
-      "https://sociopedia-client-taupe.vercel.app/",
+      "https://sociopedia-client-taupe.vercel.app",
       "http://localhost:3000",
     ],
     methods: ["POST", "GET", "PUT", "DELETE", "PATCH"],
